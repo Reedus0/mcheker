@@ -1,4 +1,3 @@
-import os
 import re
 import requests
 
@@ -13,11 +12,7 @@ class Urls(Module):
             "host": host
         }
 
-        headers = {
-            "Auth-Key": os.getenv("ABUSE_CH_API_KEY")
-        }
-
-        response = requests.post("https://urlhaus-api.abuse.ch/v1/host/", data, headers=headers)
+        response = requests.post("https://urlhaus-api.abuse.ch/v1/host/", data)
         json_response = response.json()
         if json_response["query_status"] == "ok":
             return json_response
@@ -42,16 +37,17 @@ class Urls(Module):
         for host in self.__hosts:
             subdomains = host.split(b".")[:-1]
             for subdomain in subdomains:
-                if (len(subdomain.decode()) > 10):
-                    results.append(subdomain.decode())
+                if (len(subdomain.decode()) > 8):
+                    results.append(host.decode())
 
         return { "spam": True if len(results) else False, "check": "subdomains check", "detail": results }
 
 
     def check_mail(self, mail):
+        results = []
         self.__hosts = set(re.findall(rb"https?:\/\/([\w\d.]+)", mail.get_body()))
 
-        self._results.append(self.check_urlhaus())
-        self._results.append(self.check_subdomains())
+        results.append(self.check_urlhaus())
+        results.append(self.check_subdomains())
 
-        self._output = { "module": "url", "detail": self._results }
+        self._output = { "module": "urls", "detail": results }

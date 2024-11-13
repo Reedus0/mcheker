@@ -1,5 +1,4 @@
 class Module:
-    _results = []
     _output = { "module": "default", "detail": "Module class" }
 
     def check_mail(self, mail):

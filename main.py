@@ -3,7 +3,10 @@ from dotenv import load_dotenv
 
 from file import *
 from mail import *
+
 from modules.urls import *
+from modules.keywords import *
+from modules.blacklists import *
 
 def main():
 
@@ -12,7 +15,9 @@ def main():
     result = []
 
     modules = [
-        Urls()
+        Urls(),
+        Keywords(),
+        Blacklists()
     ]
 
     mail = Mail(read_file("../mail_samples/eml_sample_4.eml"))
