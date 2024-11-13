@@ -2,6 +2,7 @@ import re
 import requests
 
 from modules.module import Module
+from config import *
 
 class Keywords(Module):
     __keywords = [
@@ -16,7 +17,7 @@ class Keywords(Module):
             if (keyword in mail_body):
                 results.append(keyword)
 
-        return { "spam": True if len(results) else False, "check": "keywords check", "detail": results }
+        return { "spam": True if len(results) > KEYWORDS_LIMIT else False, "check": "keywords check", "detail": results }
 
 
     def check_mail(self, mail):

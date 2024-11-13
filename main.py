@@ -1,4 +1,5 @@
 import json
+import sys
 from dotenv import load_dotenv
 
 from file import *
@@ -10,6 +11,13 @@ from modules.blacklists import *
 
 def main():
 
+    if (len(sys.argv) < 2):
+        print(f"Usage: {sys.argv[0]} filename")
+        
+        exit(1)
+
+    file = sys.argv[1]
+
     load_dotenv()
 
     result = []
@@ -20,7 +28,7 @@ def main():
         Blacklists()
     ]
 
-    mail = Mail(read_file("../mail_samples/eml_sample_4.eml"))
+    mail = Mail(read_file(file))
 
     for module in modules:
         module.check_mail(mail)

@@ -2,6 +2,7 @@ import re
 import requests
 
 from modules.module import Module
+from config import *
 
 class Urls(Module):
 
@@ -37,7 +38,7 @@ class Urls(Module):
         for host in self.__hosts:
             subdomains = host.split(b".")[:-1]
             for subdomain in subdomains:
-                if (len(subdomain.decode()) > 8):
+                if (len(subdomain.decode()) > SUBDOMAIN_LENGTH_LIMIT):
                     results.append(host.decode())
 
         return { "spam": True if len(results) else False, "check": "subdomains check", "detail": results }
