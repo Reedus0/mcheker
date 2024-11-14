@@ -34,7 +34,7 @@ def main():
         module.check_mail(mail)
         result.append(module.get_output())
 
-    write_file("./output.json", json.dumps(result))
+    write_file("./result.json", json.dumps(result))
 
 
 if __name__ == "__main__":
